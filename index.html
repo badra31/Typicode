@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Exo Typicode Vuejs</h1>
+        <hr>
+        <div>
+            <h2>Liste des Utilisateurs</h2>
+
+            <select id="list" v-on:click="addUser()">
+                <option>Selectionner un utilisateur</option>
+                <option value="user" v-for="user of users">{{user.name}}</option>
+            </select>
+            <user :users="users"></user>
+
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let user = {
+            props: ['users'],
+            template: `
+            <div>
+                <ul  v-for="user of users">
+                <h1>{{user.name}}</h1>
+                <p>Id: n°{{user.id}}</p>
+                <li>{{user.email}}</li>
+                <li>{{user.phone}}</li>
+                <li>{{user.website}}</li>
+                <p>Adresse: {{user.address.city}}, {{user.address.street}}, {{user.address.suite}}</p>
+                <p>Entreprise: {{user.company.name}}</p>
+
+                </ul>
+            </div>
+            `,
+
+
+        }
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+
+                users: [],
+
+            },
+
+            components: {
+                'user': user,
+            },
+
+
+            methods: {
+                addUser: function () {
+
+                    fetch('https://jsonplaceholder.typicode.com/users')
+                        .then(response => response.json())
+                        .then(data => this.users = data)
+                    console.log(this.users)
+
+                },
+
+
+
+                addPost: function () {
+
+
+                },
+
+            },
+        })
+    </script>
+
+
+</body>
+
+</html>
